@@ -1,0 +1,14 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Echo
+    init: echo "Los workers se han iniciado"
+  
+  - name: Run sqlserver
+    init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
+
+vscode:
+  extensions:
+    - ms-dotnettools.csharp
+
