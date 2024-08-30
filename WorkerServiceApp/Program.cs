@@ -1,4 +1,6 @@
 using WorkerServiceApp;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = Host.CreateApplicationBuilder(args);
 

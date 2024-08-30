@@ -1,23 +1,42 @@
-namespace WorkerServiceApp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-public class Worker : BackgroundService
+namespace WorkerServiceApp
 {
-    private readonly ILogger<Worker> _logger;
-
-    public Worker(ILogger<Worker> logger)
+    public class Worker : BackgroundService
     {
-        _logger = logger;
-    }
+        private readonly ILogger<Worker> _logger;
+        private readonly Context _context;
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
+        public Worker(ILogger<Worker> logger, Context context)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
+            _logger = logger;
+            _context = context;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            // Insertar datos en la base de datos en la tabla Test
+            _context.Tests.Add(new Model.Test
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                Name = "Juan",
+                Age = 20,
+                Address = "Calle 1",
+                Email = "asdasd"
+            });
+
+            await _context.SaveChangesAsync();
+
+            // Consultar datos en la base de datos en la tabla Test
+            var test = await _context.Tests.ToListAsync();
+
+            foreach (var item in test)
+            {
+                _logger.LogInformation($"Name: {item.Name} Age: {item.Age} Address: {item.Address} Email: {item.Email}");
             }
-            await Task.Delay(1000, stoppingToken);
         }
     }
 }

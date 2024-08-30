@@ -8,7 +8,7 @@ using WorkerServiceApp.Model;
 
 namespace WorkerServiceApp
 {
-    internal class Context : DbContext
+    public class Context : DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options)
         {
