@@ -3,12 +3,15 @@ image:
 
 tasks:
   - name: Echo
-    init: echo "Los workers se han iniciado"
-  
+    init: |
+      echo "Los workers se han iniciado"
+      for i in {1..8}; do
+        echo "Terminal $i"
+      done
+
   - name: Run sqlserver
     init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
 
 vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
-
