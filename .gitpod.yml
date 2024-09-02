@@ -33,3 +33,4 @@ vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
     - mtxr.sqltools
+    - mtxr.sqltools-driver-mssql
