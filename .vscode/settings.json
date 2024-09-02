@@ -1,0 +1,19 @@
+{
+  "sqltools.connections": [
+    {
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true
+      },
+      "previewLimit": 50,
+      "server": "127.0.0.1",
+      "port": 1433,
+      "driver": "MSSQL",
+      "name": "asd",
+      "database": "smart-workers",
+      "username": "sa",
+      "password": "mssql1Ipw"
+    }
+  ]
+}
