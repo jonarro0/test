@@ -32,3 +32,4 @@ tasks:
 vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
+    - mtxr.sqltools

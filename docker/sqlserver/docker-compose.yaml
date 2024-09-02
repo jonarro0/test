@@ -4,11 +4,22 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-CU16-GDR1-ubuntu-20.04
     container_name: smart-workers-sqlserver
     ports:
-      - "1433:1433"
+      - "127.0.0.1:1433:1433"
     volumes:
       - ~/apps/mssql/data:/var/lib/mssqlql/data
     environment:
       SA_PASSWORD: "mssql1Ipw" # cambiar por una contraseña segura
       ACCEPT_EULA: "Y"
+      MSQSL_PID: "Express"
+      MSSQL_PASSWORD: "mssql" 
+      MSQSL_DATABASE: "smart-workers"
+      MSSQL_SLEEP: "30"
+    command: /bin/bash -c '/opt/mssql/bin/sqlservr & echo "wait $$MSSQL_SLEEP sec for DB to start "; sleep $$MSSQL_SLEEP; /opt/mssql-tools/bin/sqlcmd -U sa -P $$SA_PASSWORD -d tempdb -q "EXIT(CREATE DATABASE $$MSSQL_DATABASE)"; wait;'
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P mssql1Ipw -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
 
