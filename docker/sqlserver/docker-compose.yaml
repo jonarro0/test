@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   
   sqlserver:
@@ -10,7 +8,7 @@ services:
     volumes:
       - ~/apps/mssql/data:/var/lib/mssqlql/data
     environment:
-      SA_PASSWORD: "mssql1Ipw"
+      SA_PASSWORD: "mssql1Ipw" # cambiar por una contraseña segura
       ACCEPT_EULA: "Y"
 
 
