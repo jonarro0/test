@@ -12,7 +12,8 @@ services:
       MSSQL_PID: "Express"
       MSSQL_DATABASE: "smart-workers"
       MSSQL_SLEEP: "30"
-    command: /bin/bash -c '/opt/mssql/bin/sqlservr & echo "wait ${MSSQL_SLEEP} sec for DB to start "; sleep ${MSSQL_SLEEP}; /opt/mssql-tools/bin/sqlcmd -U sa -P ${SA_PASSWORD} -d tempdb -q "IF DB_ID(\'${MSSQL_DATABASE}\') IS NULL CREATE DATABASE [${MSSQL_DATABASE}];"; wait;'
+    command: > 
+              bash -c '/opt/mssql/bin/sqlservr & echo "wait ${MSSQL_SLEEP} sec for DB to start "; sleep ${MSSQL_SLEEP}; /opt/mssql-tools/bin/sqlcmd -U sa -P ${SA_PASSWORD} -d tempdb -q "IF DB_ID(\'${MSSQL_DATABASE}\') IS NULL CREATE DATABASE [${MSSQL_DATABASE}];"; wait;'
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P mssql1Ipw -Q "SELECT 1" || exit 1
       interval: 10s
