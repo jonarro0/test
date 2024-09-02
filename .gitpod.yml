@@ -29,7 +29,7 @@ tasks:
     init: echo "Iniciando Terminal 8"
     openMode: tab-after
   - name: Run sqlserver
-    init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
+    init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d --env-file /workspace/.env
     openMode: tab-after
 
 vscode:
