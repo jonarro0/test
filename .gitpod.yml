@@ -3,7 +3,9 @@ image:
 
 tasks:
   - name: Terminal 1
-    init: echo "Iniciando Terminal 1"
+    init: |
+      cp .env /workspace/.env
+      echo "Iniciando Terminal 1"
     openMode: tab-after
   - name: Terminal 2
     init: echo "Iniciando Terminal 2"
@@ -28,6 +30,7 @@ tasks:
     openMode: tab-after
   - name: Run sqlserver
     init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
+    openMode: tab-after
 
 vscode:
   extensions:
