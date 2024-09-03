@@ -5,42 +5,42 @@ tasks:
   - name: ServiceMailSenderPro
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp"
+      echo "dotnet run --project ServiceMailSenderPro"
     openMode: tab-after
   - name: ServiceSelectBonosProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp2"
+      echo "dotnet run --project ServiceSelectBonosProd"
     openMode: tab-after
   - name: ServiceWorkerComprasFiatProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp3"
+      echo "dotnet run --project ServiceWorkerComprasFiatProd"
     openMode: tab-after
   - name: ServiceWorkerDispersorPagosProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp4"
+      echo "dotnet run --project ServiceWorkerDispersorPagosProd"
     openMode: tab-after
   - name: ServiceWorkerMembershipNotificationsProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp5"
+      echo "dotnet run --project ServiceWorkerMembershipNotificationsProd"
     openMode: tab-after
   - name: ServiceWorkerMonitorComprasBlockChain
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp6"
+      echo "dotnet run --project ServiceWorkerMonitorComprasBlockChain"
     openMode: tab-after
   - name: ServiceWorkerMonitorPagosProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp7"
+      echo "dotnet run --project ServiceWorkerMonitorPagosProd"
     openMode: tab-after
   - name: ServiceWorkerProcesadorRetirosProd
     command: |
       echo "Para iniciar el batch ejecute el siguiente comando:"
-      echo "dotnet run --project WorkerServiceApp8"
+      echo "dotnet run --project ServiceWorkerProcesadorRetirosProd"
     openMode: tab-after
   - name: Run sqlserver
     init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
@@ -50,6 +50,6 @@ vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
     - mtxr.sqltools
-    - mtxr.sqltools-driver-mssql
+    - mtxr.sqltools-driver-pg
     - ms-azuretools.vscode-docker
     - muhammad-sammy.csharp
