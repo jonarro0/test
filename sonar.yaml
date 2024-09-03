@@ -1,0 +1,53 @@
+services:
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    environment:
+      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
+      - SONAR_JDBC_USERNAME=sonar
+      - SONAR_JDBC_PASSWORD=sonar
+    ports:
+      - "9000:9000"
+    networks:
+      - sonarnet
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_temp:/opt/sonarqube/temp
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: sonar-db
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+      - POSTGRES_DB=sonarqube
+    networks:
+      - sonarnet
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli:latest
+    container_name: sonar-scanner
+    networks:
+      - sonarnet
+    working_dir: /usr/src
+    volumes:
+      - /home/jonarroh/angular/smart-angular-smartdevops-front:/usr/src
+      - ./sonar-scanner/conf:/opt/sonar-scanner/conf
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+networks:
+  sonarnet:
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+  sonarqube_temp:
+  postgresql_data:
+ 

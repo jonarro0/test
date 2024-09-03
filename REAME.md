@@ -10,7 +10,9 @@ image:
 
 tasks:
   - name: Terminal 1
-    init: echo "Iniciando Terminal 1"
+    init: |
+      cp .env /workspace/.env
+      echo "Iniciando Terminal 1"
     openMode: tab-after
   - name: Terminal 2
     init: echo "Iniciando Terminal 2"
@@ -35,10 +37,14 @@ tasks:
     openMode: tab-after
   - name: Run sqlserver
     init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
+    openMode: tab-after
 
 vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
+    - mtxr.sqltools
+    - mtxr.sqltools-driver-mssql
+
 ```
 
 Este archivo configura la creación de múltiples terminales y el despliegue de un contenedor Docker con SQL Server.
@@ -72,9 +78,12 @@ Para añadir extensiones de VS Code en tu entorno de Gitpod, se utiliza la sigui
 vscode:
   extensions:
     - ms-dotnettools.vscode-dotnet-runtime
+    - mtxr.sqltools
+    - mtxr.sqltools-driver-mssql
 ```
 
 En este caso, se instala la extensión `ms-dotnettools.vscode-dotnet-runtime`, que facilita el trabajo con proyectos de .NET en VS Code.
+Mientras que las extensiones `mtxr.sqltools` y `mtxr.sqltools-driver-mssql` permiten trabajar con bases de datos SQL Server en VS Code.
 
 ### 📄 Creación del Archivo `docker-compose.yaml`
 
@@ -83,17 +92,37 @@ Para desplegar el contenedor de SQL Server, debes crear un archivo `docker-compo
 ```yaml
 services:
   sqlserver:
+    user: root
     image: mcr.microsoft.com/mssql/server:2019-CU16-GDR1-ubuntu-20.04
     container_name: smart-workers-sqlserver
     ports:
-      - "1433:1433"
+      - "127.0.0.1:1433:1433"
     volumes:
-      - ~/apps/mssql/data:/var/lib/mssqlql/data
+      - mssql_data:/var/opt/mssql/data
     environment:
       SA_PASSWORD: "mssql1Ipw" # cambiar por una contraseña segura
       ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express" # esta es la versión de SQL Server
+      MSSQL_DATABASE: "smart-workers" # cambiar por el nombre de la base de datos  
+      MSSQL_SLEEP: "30"
+    command: >
+      bash -c " /opt/mssql/bin/sqlservr & \
+      echo 'wait $$MSSQL_SLEEP sec for DB to start'; \
+      sleep $$MSSQL_SLEEP; \
+      /opt/mssql-tools/bin/sqlcmd -U sa -P $$SA_PASSWORD -d tempdb -q \"IF DB_ID('$$MSSQL_DATABASE') IS NULL CREATE DATABASE [$$MSSQL_DATABASE];\"; \
+      wait;"
+    healthcheck:
+      test: "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $$SA_PASSWORD -Q 'SELECT 1' || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    privileged: true
+
+
+volumes:
+  mssql_data:
+
 ```
 
-Este archivo define un servicio `sqlserver` que utiliza la imagen `mcr.microsoft.com/mssql/server:2019-CU16-GDR1-ubuntu-20.04`. El contenedor mapea el puerto `1433` del contenedor al puerto `1433` del host, asegurando la persistencia de datos mediante un volumen. Además, establece la contraseña del usuario `sa` y acepta el acuerdo de licencia de Microsoft. 
-
-💡 **Nota:** Recuerda cambiar la contraseña `SA_PASSWORD` por una más segura antes de desplegar en producción.
+Este archivo define un servicio `sqlserver` que utiliza la imagen `mcr.microsoft.com/mssql/server:2019-CU16-GDR1-ubuntu-20.04`. El contenedor mapea el puerto `1433` del contenedor al puerto `1433` del host, asegurando la persistencia de datos mediante un volumen. Además, establece la contraseña del usuario `sa`, la cual se debe cambiar por una contraseña segura, asi como configurar correctamente el tipo de licencia de SQL Server y el nombre de la base de datos.

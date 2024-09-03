@@ -2,34 +2,48 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Terminal 1
-    init: |
-      cp .env /workspace/.env
-      echo "Iniciando Terminal 1"
+  - name: ServiceMailSenderPro
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp"
     openMode: tab-after
-  - name: Terminal 2
-    init: echo "Iniciando Terminal 2"
+  - name: ServiceSelectBonosProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp2"
     openMode: tab-after
-  - name: Terminal 3
-    init: echo "Iniciando Terminal 3"
+  - name: ServiceWorkerComprasFiatProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp3"
     openMode: tab-after
-  - name: Terminal 4
-    init: echo "Iniciando Terminal 4"
+  - name: ServiceWorkerDispersorPagosProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp4"
     openMode: tab-after
-  - name: Terminal 5
-    init: echo "Iniciando Terminal 5"
+  - name: ServiceWorkerMembershipNotificationsProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp5"
     openMode: tab-after
-  - name: Terminal 6
-    init: echo "Iniciando Terminal 6"
+  - name: ServiceWorkerMonitorComprasBlockChain
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp6"
     openMode: tab-after
-  - name: Terminal 7
-    init: echo "Iniciando Terminal 7"
+  - name: ServiceWorkerMonitorPagosProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp7"
     openMode: tab-after
-  - name: Terminal 8
-    init: echo "Iniciando Terminal 8"
+  - name: ServiceWorkerProcesadorRetirosProd
+    command: |
+      echo "Para iniciar el batch ejecute el siguiente comando:"
+      echo "dotnet run --project WorkerServiceApp8"
     openMode: tab-after
   - name: Run sqlserver
-    init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d --env-file /workspace/.env
+    init: docker-compose -f docker/sqlserver/docker-compose.yaml up -d
     openMode: tab-after
 
 vscode:
@@ -37,3 +51,5 @@ vscode:
     - ms-dotnettools.vscode-dotnet-runtime
     - mtxr.sqltools
     - mtxr.sqltools-driver-mssql
+    - ms-azuretools.vscode-docker
+    - muhammad-sammy.csharp
